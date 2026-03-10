@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Current Inventory</h2>
+<p><a class="button" href="{{ url_for('export_current_inventory_csv') }}">Export CSV</a> <button onclick="window.print()">Print</button></p>
+<table>
+  <tr><th>Category</th><th>Product</th><th>Date</th><th>Unopened</th><th>Opened Oz</th><th>Total Oz</th><th>Status</th></tr>
+  {% for r in rows %}
+    {% set low = (r.total_stock_on_hand_oz <= r.low_stock_threshold_oz) or (r.unopened_bottle_count <= r.low_stock_threshold_unopened) %}
+    <tr class="{{ 'low' if low else '' }}">
+      <td>{{ r.category_name }}</td><td>{{ r.name }}</td><td>{{ r.inventory_date }}</td><td>{{ r.unopened_bottle_count }}</td>
+      <td>{{ '%.2f'|format(r.total_opened_ounces_remaining) }}</td><td>{{ '%.2f'|format(r.total_stock_on_hand_oz) }}</td>
+      <td>{{ 'LOW STOCK' if low else 'OK' }}</td>
+    </tr>
+  {% else %}<tr><td colspan="7">No inventory entries yet.</td></tr>{% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Low Stock Alerts</h2>
+<table>
+  <tr><th>Category</th><th>Product</th><th>Last Date</th><th>Unopened</th><th>Total Oz</th><th>Thresholds</th></tr>
+  {% for r in rows %}
+  <tr class="low">
+    <td>{{ r.category_name }}</td><td>{{ r.name }}</td><td>{{ r.inventory_date }}</td><td>{{ r.unopened_bottle_count }}</td>
+    <td>{{ '%.2f'|format(r.total_stock_on_hand_oz) }}</td>
+    <td>Oz ≤ {{ r.low_stock_threshold_oz }} or Unopened ≤ {{ r.low_stock_threshold_unopened }}</td>
+  </tr>
+  {% else %}<tr><td colspan="6">No low stock alerts right now.</td></tr>{% endfor %}
+</table>
+{% endblock %}

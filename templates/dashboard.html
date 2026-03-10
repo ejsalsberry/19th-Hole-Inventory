@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Dashboard</h2>
+<div class="cards">
+  <div class="card"><strong>Active Products:</strong> {{ total_products }}</div>
+  <div class="card"><strong>Low Stock Alerts:</strong> {{ low_stock_count }}</div>
+</div>
+
+<h3>Recent Daily Entries</h3>
+<table>
+  <tr><th>Date</th><th>Product</th><th>Unopened</th><th>Total Stock (oz)</th></tr>
+  {% for row in recent_entries %}
+  <tr><td>{{ row.inventory_date }}</td><td>{{ row.name }}</td><td>{{ row.unopened_bottle_count }}</td><td>{{ '%.2f'|format(row.total_stock_on_hand_oz) }}</td></tr>
+  {% else %}<tr><td colspan="4">No entries yet.</td></tr>{% endfor %}
+</table>
+
+<h3>Recent Deliveries</h3>
+<table>
+  <tr><th>Date</th><th>Product</th><th>Qty</th><th>Unit Cost</th></tr>
+  {% for row in recent_deliveries %}
+  <tr><td>{{ row.delivery_date }}</td><td>{{ row.name }}</td><td>{{ row.quantity_received }}</td><td>${{ '%.2f'|format(row.unit_cost) }}</td></tr>
+  {% else %}<tr><td colspan="4">No deliveries logged yet.</td></tr>{% endfor %}
+</table>
+{% endblock %}

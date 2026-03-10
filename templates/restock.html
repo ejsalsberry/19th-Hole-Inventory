@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Restock Entry</h2>
+<form method="post" class="form-grid">
+  <label>Delivery Date <input type="date" name="delivery_date" value="{{ today }}" required></label>
+  <label>Product
+    <select name="product_id" required>
+      {% for p in products %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Quantity Received <input type="number" min="1" name="quantity_received" required></label>
+  <label>Unit Cost <input type="number" step="0.01" min="0" name="unit_cost" required></label>
+  <label>Notes <textarea name="notes"></textarea></label>
+  <button type="submit">Save Delivery</button>
+</form>
+
+<h3>Recent Deliveries</h3>
+<table>
+  <tr><th>Date</th><th>Product</th><th>Qty</th><th>Unit Cost</th><th>Notes</th></tr>
+  {% for row in history %}
+  <tr><td>{{ row.delivery_date }}</td><td>{{ row.product_name }}</td><td>{{ row.quantity_received }}</td><td>${{ '%.2f'|format(row.unit_cost) }}</td><td>{{ row.notes or '' }}</td></tr>
+  {% else %}<tr><td colspan="5">No deliveries yet.</td></tr>{% endfor %}
+</table>
+{% endblock %}

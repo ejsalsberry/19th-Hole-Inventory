@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Add Product</h2>
+<form method="post" class="form-grid">
+  <label>Name <input name="name" required></label>
+  <label>Category
+    <select name="category_id" required>
+      {% for c in categories %}<option value="{{ c.id }}">{{ c.name }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Bottle Size (oz) <input name="bottle_size_oz" type="number" step="0.01" required></label>
+  <label>Cost <input name="cost" type="number" step="0.01" required></label>
+  <label>Empty Bottle Weight <input name="empty_bottle_weight" type="number" step="0.01" required></label>
+  <label>Full Bottle Weight <input name="full_bottle_weight" type="number" step="0.01" required></label>
+  <label>Pour Spout Weight (optional) <input name="pour_spout_weight" type="number" step="0.01"></label>
+  <label>Low Stock Threshold (oz) <input name="low_stock_threshold_oz" type="number" step="0.01" value="0"></label>
+  <label>Low Stock Threshold (unopened count) <input name="low_stock_threshold_unopened" type="number" value="0"></label>
+  <label><input type="checkbox" name="uses_standard_weighing" checked> Uses Standard Weighing Setup</label>
+  <label><input type="checkbox" name="is_active" checked> Active</label>
+  <button type="submit">Save Product</button>
+</form>
+{% endblock %}

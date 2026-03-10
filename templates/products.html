@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Products</h2>
+<p><a class="button" href="{{ url_for('new_product') }}">+ Add Product</a></p>
+<table>
+  <tr>
+    <th>Name</th><th>Category</th><th>Bottle Size (oz)</th><th>Cost</th><th>Threshold (oz)</th><th>Threshold (unopened)</th><th>Status</th>
+  </tr>
+  {% for p in products %}
+  <tr>
+    <td>{{ p.name }}</td><td>{{ p.category_name }}</td><td>{{ p.bottle_size_oz }}</td><td>${{ '%.2f'|format(p.cost) }}</td>
+    <td>{{ p.low_stock_threshold_oz }}</td><td>{{ p.low_stock_threshold_unopened }}</td><td>{{ 'Active' if p.is_active else 'Inactive' }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

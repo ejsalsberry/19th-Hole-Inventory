@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Usage Forecast (5-Week Ready)</h2>
+<p>This view uses the last 35 days of inventory snapshots to estimate average daily usage.</p>
+<table>
+  <tr><th>Category</th><th>Product</th><th>Current Oz</th><th>Avg Daily Usage Oz</th><th>Projected Weekly Usage Oz</th><th>Est. Days Left</th></tr>
+  {% for r in rows %}
+  <tr>
+    <td>{{ r.category_name }}</td>
+    <td>{{ r.name }}</td>
+    <td>{{ '%.2f'|format(r.total_stock_on_hand_oz) }}</td>
+    <td>{{ '%.2f'|format(r.avg_daily_usage_oz) }}</td>
+    <td>{{ '%.2f'|format(r.projected_weekly_usage_oz) }}</td>
+    <td>{{ r.days_left if r.days_left else 'N/A' }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="6">No inventory data available yet.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

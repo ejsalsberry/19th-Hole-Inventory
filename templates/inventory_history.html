@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Inventory History</h2>
+<table>
+  <tr><th>Date</th><th>Category</th><th>Product</th><th>Unopened</th><th>Opened Oz</th><th>Total Oz</th><th>Notes</th></tr>
+  {% for r in rows %}
+  <tr>
+    <td>{{ r.inventory_date }}</td>
+    <td>{{ r.category_name }}</td>
+    <td>{{ r.name }}</td>
+    <td>{{ r.unopened_bottle_count }}</td>
+    <td>{{ '%.2f'|format(r.total_opened_ounces_remaining) }}</td>
+    <td>{{ '%.2f'|format(r.total_stock_on_hand_oz) }}</td>
+    <td>{{ r.notes or '' }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="7">No history yet.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

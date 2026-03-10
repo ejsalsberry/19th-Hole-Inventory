@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Daily Inventory Entry</h2>
+<p>One record is saved per product per date. Saving again for the same date/product updates that day.</p>
+<form method="post" class="form-grid">
+  <label>Inventory Date <input type="date" name="inventory_date" value="{{ today }}" required></label>
+  <label>Category
+    <select id="category_filter">
+      <option value="">All Categories</option>
+      {% for c in categories %}<option value="{{ c.name }}">{{ c.name }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Product
+    <select name="product_id" id="product_select" required>
+      {% for p in products %}<option value="{{ p.id }}" data-category="{{ p.category_name }}">{{ p.category_name }} - {{ p.name }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Unopened Bottle Count <input type="number" min="0" name="unopened_bottle_count" value="0" required></label>
+  <label>Manual Opened Ounces (optional) <input type="number" step="0.01" min="0" name="manual_opened_ounces" value="0"></label>
+
+  <fieldset>
+    <legend>Opened Bottle Weigh-ins (up to 8)</legend>
+    {% for i in range(1,9) %}
+      <div class="row">
+        <input type="text" name="bottle_identifier_{{ i }}" placeholder="Bottle ID {{ i }} (optional)">
+        <input type="number" step="0.01" min="0" name="measured_weight_{{ i }}" placeholder="Measured weight {{ i }}">
+      </div>
+    {% endfor %}
+  </fieldset>
+
+  <label>Notes <textarea name="notes" rows="3"></textarea></label>
+  <button type="submit">Save Daily Inventory</button>
+</form>
+
+<script>
+const categoryFilter = document.getElementById('category_filter');
+const productSelect = document.getElementById('product_select');
+categoryFilter.addEventListener('change', () => {
+  const category = categoryFilter.value;
+  [...productSelect.options].forEach(opt => {
+    opt.hidden = category && opt.dataset.category !== category;
+  });
+  const visible = [...productSelect.options].find(o => !o.hidden);
+  if (visible) productSelect.value = visible.value;
+});
+</script>
+{% endblock %}
