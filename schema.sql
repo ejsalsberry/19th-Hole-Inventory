@@ -66,3 +66,16 @@ CREATE INDEX IF NOT EXISTS idx_daily_inventory_date ON daily_inventory(inventory
 CREATE INDEX IF NOT EXISTS idx_daily_inventory_product_id ON daily_inventory(product_id);
 CREATE INDEX IF NOT EXISTS idx_weighins_inventory_date ON open_bottle_weighins(inventory_date);
 CREATE INDEX IF NOT EXISTS idx_restock_delivery_date ON restock_deliveries(delivery_date);
+
+CREATE TABLE IF NOT EXISTS alerts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    alert_type TEXT NOT NULL,
+    severity TEXT NOT NULL DEFAULT 'info',
+    message TEXT NOT NULL,
+    inventory_date TEXT,
+    product_id INTEGER,
+    details TEXT,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+CREATE INDEX IF NOT EXISTS idx_alerts_created_at ON alerts(created_at);

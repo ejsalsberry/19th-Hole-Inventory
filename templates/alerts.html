@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Alerts</h2>
+<table>
+  <tr><th>Created</th><th>Type</th><th>Severity</th><th>Product</th><th>Date</th><th>Message</th><th>Details</th></tr>
+  {% for row in rows %}
+  <tr class="{{ 'low' if row.severity == 'warning' else '' }}">
+    <td>{{ row.created_at }}</td>
+    <td>{{ row.alert_type }}</td>
+    <td>{{ row.severity }}</td>
+    <td>{{ row.product_name or 'N/A' }}</td>
+    <td>{{ row.inventory_date or '' }}</td>
+    <td>{{ row.message }}</td>
+    <td>{{ row.details or '' }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="7">No alerts recorded yet.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

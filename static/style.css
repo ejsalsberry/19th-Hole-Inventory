@@ -1,20 +1,20 @@
-body { font-family: Arial, sans-serif; margin: 0; background: #f7f7f8; color: #222; }
-header { background: #113355; color: #fff; padding: 1rem; }
+body { font-family: Arial, sans-serif; margin: 0; background: #fff7fb; color: #222; }
+header { background: #d81b60; color: #fff; padding: 1rem; }
 header h1 { margin: 0 0 .5rem 0; }
 nav a { color: #fff; margin-right: .9rem; text-decoration: none; font-weight: bold; }
 main { padding: 1rem; max-width: 1200px; margin: 0 auto; }
 .cards { display: flex; gap: 1rem; }
-.card { background: #fff; border: 1px solid #ddd; padding: .8rem; border-radius: 6px; }
+.card { background: #fff; border: 1px solid #f3bfd6; padding: .8rem; border-radius: 6px; }
 table { width: 100%; border-collapse: collapse; background: #fff; }
-th, td { border: 1px solid #ddd; padding: .5rem; text-align: left; }
-.low { background: #ffe9e9; }
+th, td { border: 1px solid #f3bfd6; padding: .5rem; text-align: left; }
+.low { background: #ffe5f0; }
 .form-grid { display: grid; gap: .7rem; max-width: 750px; }
 input, select, textarea, button { padding: .45rem; font-size: 1rem; }
-button, .button { background: #1d6fd6; color: #fff; border: 0; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
+button, .button { background: #ff2d8d; color: #fff; border: 0; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
 .flash { padding: .5rem; border-radius: 4px; }
 .flash.success { background: #e7f8ec; }
 .flash.error { background: #fce8e8; }
-fieldset { border: 1px solid #ccc; padding: .6rem; }
+fieldset { border: 1px solid #f3bfd6; padding: .6rem; }
 .row { display: flex; gap: .5rem; margin-bottom: .4rem; }
 @media print {
   nav, button, .button, .flash { display: none; }

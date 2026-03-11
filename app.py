@@ -167,7 +167,7 @@ def create_app() -> Flask:
             total_opened_oz = manual_opened_oz
             weighins = []
 
-            for idx in range(1, 9):
+            for idx in range(1, 3):
                 weight_raw = form.get(f"measured_weight_{idx}")
                 bottle_id = (form.get(f"bottle_identifier_{idx}") or "").strip() or None
                 if not weight_raw:
@@ -293,6 +293,21 @@ def create_app() -> Flask:
         ]
         return render_template("low_stock.html", rows=rows)
 
+
+    @app.route("/alerts")
+    def alerts_feed():
+        db = get_db()
+        rows = db.execute(
+            """
+            SELECT a.*, p.name AS product_name
+            FROM alerts a
+            LEFT JOIN products p ON p.id = a.product_id
+            ORDER BY a.created_at DESC, a.id DESC
+            LIMIT 200
+            """
+        ).fetchall()
+        return render_template("alerts.html", rows=rows)
+
     @app.route("/forecast")
     def forecast():
         rows = _get_latest_inventory_rows()
@@ -352,6 +367,25 @@ def _restock_history():
         """
     ).fetchall()
 
+
+
+def _create_alert(
+    *,
+    alert_type: str,
+    message: str,
+    severity: str = "info",
+    inventory_date: Optional[str] = None,
+    product_id: Optional[int] = None,
+    details: Optional[str] = None,
+) -> None:
+    db = get_db()
+    db.execute(
+        """
+        INSERT INTO alerts (alert_type, severity, message, inventory_date, product_id, details)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """,
+        (alert_type, severity, message, inventory_date, product_id, details),
+    )
 
 def _parse_float(value: Optional[str], label: str, *, allow_blank: bool = False, default: Optional[float] = None) -> Optional[float]:
     if value is None or value == "":

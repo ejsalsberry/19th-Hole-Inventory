@@ -19,13 +19,16 @@
   <label>Manual Opened Ounces (optional) <input type="number" step="0.01" min="0" name="manual_opened_ounces" value="0"></label>
 
   <fieldset>
-    <legend>Opened Bottle Weigh-ins (up to 8)</legend>
-    {% for i in range(1,9) %}
-      <div class="row">
-        <input type="text" name="bottle_identifier_{{ i }}" placeholder="Bottle ID {{ i }} (optional)">
-        <input type="number" step="0.01" min="0" name="measured_weight_{{ i }}" placeholder="Measured weight {{ i }}">
-      </div>
-    {% endfor %}
+    <legend>Opened Bottle Weigh-ins (1 default, 2 max)</legend>
+    <div class="row" id="weighin-1">
+      <input type="text" name="bottle_identifier_1" placeholder="Bottle ID 1 (optional)">
+      <input type="number" step="0.01" min="0" name="measured_weight_1" placeholder="Measured weight 1">
+    </div>
+    <div class="row" id="weighin-2" style="display:none;">
+      <input type="text" name="bottle_identifier_2" placeholder="Bottle ID 2 (optional)">
+      <input type="number" step="0.01" min="0" name="measured_weight_2" placeholder="Measured weight 2">
+    </div>
+    <button type="button" id="add-bottle-btn">Add another bottle</button>
   </fieldset>
 
   <label>Notes <textarea name="notes" rows="3"></textarea></label>
@@ -35,6 +38,9 @@
 <script>
 const categoryFilter = document.getElementById('category_filter');
 const productSelect = document.getElementById('product_select');
+const secondWeighin = document.getElementById('weighin-2');
+const addBottleBtn = document.getElementById('add-bottle-btn');
+
 categoryFilter.addEventListener('change', () => {
   const category = categoryFilter.value;
   [...productSelect.options].forEach(opt => {
@@ -42,6 +48,12 @@ categoryFilter.addEventListener('change', () => {
   });
   const visible = [...productSelect.options].find(o => !o.hidden);
   if (visible) productSelect.value = visible.value;
+});
+
+addBottleBtn.addEventListener('click', () => {
+  secondWeighin.style.display = 'flex';
+  addBottleBtn.disabled = true;
+  addBottleBtn.textContent = 'Second bottle enabled';
 });
 </script>
 {% endblock %}
